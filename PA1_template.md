@@ -9,16 +9,7 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-rm(list=ls())
-setwd( "C:\\Users\\RamamurthyV\\Documents\\R\\5.Reproducible Research\\Project 1\\RepData_PeerAssessment1")
-library(dplyr)
-library(data.table)
-library(tibble)
-library(stringr)
-library(ggplot2)
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 ## Activity Analysis 
 
@@ -28,7 +19,8 @@ Lets first work on reading the data from the files and loading into R.
 
 ### Code for reading in the dataset and/or processing the data
  
-```{r reading_Data}
+
+```r
 #Load this data into steps Data frame in R
 
 steps <- read.csv('activity.csv')
@@ -43,7 +35,8 @@ Let us now plot the histogram of total number of steps taken each day. This give
 
 This can be done using the R code below :
 
-```{r 3_mean_median}
+
+```r
 #Mean and Median calculation per day
 steps <- read.csv('activity.csv')
 
@@ -67,20 +60,19 @@ totalmedian <- median(steps_mean_median$tot_steps)
 hist(steps_mean_median$tot_steps,col="green", main="Total number of steps each day", xlab="Number of steps per day",border="blue", ylab="Frequency of Steps")
 abline(v=totalmean, lty=5, col="black")   
 abline(v=totalmedian, lty=6, col="red")  
-
-
 ```
 
-The total mean computed is `r totalmean` .
-The total  median computed is `r totalmedian`.
+![](PA1_template_files/figure-html/3_mean_median-1.png)<!-- -->
+
+The total mean computed is 10766 .
+The total  median computed is 10765.
 
 ### Time series plot
 
 Here let us plot using the data set got above on the time series plot of average number of steps taken each day . We can also plot the the 5-minute interval that, on average, contains the maximum number of steps.
 
-``` {r 4_5_time_Series}
 
-
+```r
 steps <- na.omit(steps)
 #view(steps) # 15264 entries 
 
@@ -102,10 +94,9 @@ p <- ggplot(steps_avg_time, aes(x=interval, y=mean_steps)) +
   #stat_summary(fun.y = max(mean_steps), colour = "orange", geom = "point", size = 5)
   
 p
-
-
-
 ```
+
+![](PA1_template_files/figure-html/4_5_time_Series-1.png)<!-- -->
 
 ### Histogram of the total number of steps taken each day after missing values are imputed
 Let us plot the histogram of total number of steps  with the imputed data. For this purpose Iam starting fresh and redoing from the initial data set .The mechanism used here to impute missing data is [Mean imputation ][1]  
@@ -115,8 +106,8 @@ Let us plot the histogram of total number of steps  with the imputed data. For t
 We take the mean of the observed values for that variable ( for that specific interval) and populate that in the missing place.
 
 
-```{r 6_7_imput, echo=TRUE}
 
+```r
 #Load this data into steps Data frame in R
 
 steps <- read.csv('activity.csv')
@@ -162,19 +153,20 @@ total_new_median <- as.integer(median(steps_new_mean_median$tot_steps))
 hist(steps_new_mean_median$tot_steps,col="green", main="Total number of steps each day(Imputed)", xlab="Number of steps per day",border="blue", ylab="Frequency of Steps")
 abline(v=total_new_mean, lty=5, col="black")   
 abline(v=total_new_median, lty=6, col="red")  
-
 ```
 
+![](PA1_template_files/figure-html/6_7_imput-1.png)<!-- -->
 
-From the imputed data set, we can see that the total mean computed is `r total_new_mean` and the total  median computed is `r total_new_median`. 
+
+From the imputed data set, we can see that the total mean computed is 10766 and the total  median computed is 10766. 
 
 Conclusion: When we impute the missing values in the data set, the mean and median match the original data set.The total number of steps now imputed for all date intervals having NA values is the same as the median value.
 
 
 ###  Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 
-```{r panel, echo=TRUE, warning=FALSE}
 
+```r
 steps <- read.csv('activity.csv')
 
 steps$date <- as.Date(steps$date)
@@ -222,8 +214,9 @@ ggplot( data= steps_avg_td, aes(interval,mean_steps))+
          y="Number of steps",
          x="Interval")+
     facet_grid(day ~.)
-
 ```
+
+![](PA1_template_files/figure-html/panel-1.png)<!-- -->
 From the panel plot we can see that the individual walks highest number of steps per interval only on weekdays , while in weekends the average number of steps per interval is higher than weekdays.
 This is the conclusion of this assignment and hope you enjoyed it.
 
